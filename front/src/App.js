@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import Participant from './Participant';
@@ -6,9 +6,10 @@ import Participant from './Participant';
 const App = () => {
   const [rooms, setRooms] = useState([]);
   const [participants, setParticipants] = useState([]);
-  const sessionRef = React.useRef(null);
-  const publisherRef = React.useRef(null);
-  const videoRef = React.useRef(null);
+  const sessionRef = useRef(null);
+  const publisherRef = useRef(null);
+  const videoRef = useRef(null);
+  const mediaStreamRef = useRef(null);
 
   // OpenVidu 객체 초기화
   const OV = new OpenVidu();
@@ -30,9 +31,24 @@ const App = () => {
     console.error('Error accessing media devices:', error);
   };
 
+  useEffect(() => {
+    const startWebcam = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        mediaStreamRef.current = stream;
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (error) {
+        handleError(error);
+      }
+    };
+
+    startWebcam();
+  }, []);
+
   const handleJoinRoom = async (room) => {
     try {
-      await startWebcam();
       const response = await axios.post('http://localhost:3000/sessions', {
         sessionName: room,
       });
@@ -41,8 +57,8 @@ const App = () => {
 
       // OpenVidu Publisher 생성
       const publisher = OV.initPublisher('publisher', {
-        videoSource: videoRef.current, // Use the selected video stream
         audioSource: undefined, // default microphone
+        videoSource: undefined, // default webcam
         publishAudio: true,
         publishVideo: true,
         resolution: '640x480',
@@ -83,15 +99,6 @@ const App = () => {
     }
   };
 
-  const startWebcam = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-      videoRef.current.srcObject = stream;
-    } catch (error) {
-      handleError(error);
-    }
-  };
-
   return (
       <div>
         <h1>Video Chat App</h1>
@@ -102,13 +109,15 @@ const App = () => {
               </li>
           ))}
         </ul>
-        <div id="publisher">
-          <video ref={videoRef} autoPlay playsInline />
-        </div>
+        <div id="publisher"></div>
         <div id="subscribers">
           {participants.map((stream, index) => (
               <Participant key={index} stream={stream} />
           ))}
+        </div>
+        <div id="webcam-stream">
+          {/* 카메라 스트림 확인을 위한 비디오 요소 */}
+          <video ref={videoRef} autoPlay playsInline />
         </div>
       </div>
   );
