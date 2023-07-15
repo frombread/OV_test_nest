@@ -5,16 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2c211465-a46e-49f8-b0ec-41f21ba81c6f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/back/src/app.gateway.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/src/gateway/openvidu.gateway.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/back/src/openvidu.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/front/src/Participant.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/front/src/components/RoomList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/app.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/app.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/app.gateway.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/app.gateway.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/back/src/openvidu.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/back/src/openvidu.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/front/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/front/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/front/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/App.test.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/front/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/front/src/Participant.js" beforeDir="false" afterPath="$PROJECT_DIR$/front/src/Participant.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +34,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/front" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -46,23 +47,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/bread/WebstormProjects/real_woom/front/src",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "ts.external.directory.path": "/Users/bread/WebstormProjects/real_woom/back/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/bread/WebstormProjects/real_woom/front/src&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/bread/WebstormProjects/real_woom/back/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/front/src" />
@@ -95,7 +96,10 @@
       <workItem from="1689426955756" duration="71000" />
       <workItem from="1689427317878" duration="921000" />
       <workItem from="1689428246657" duration="12097000" />
-      <workItem from="1689441001838" duration="3926000" />
+      <workItem from="1689441001838" duration="6127000" />
+      <workItem from="1689447150871" duration="3902000" />
+      <workItem from="1689451868880" duration="1155000" />
+      <workItem from="1689453036313" duration="1892000" />
     </task>
     <servers />
   </component>

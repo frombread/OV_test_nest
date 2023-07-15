@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import { OpenVidu } from 'openvidu-browser';
+import { OpenVidu, Publisher } from 'openvidu-browser';
 import Participant from './Participant';
+import RoomList from "./components/RoomList";
 
 const App = () => {
   const [rooms, setRooms] = useState([]);
   const [participants, setParticipants] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState(null);
   const sessionRef = useRef(null);
   const publisherRef = useRef(null);
   const videoRef = useRef(null);
@@ -48,67 +50,75 @@ const App = () => {
   }, []);
 
   const handleJoinRoom = async (room) => {
-    try {
-      const response = await axios.post('http://localhost:3000/sessions', {
-        sessionName: room,
-      });
-      const sessionId = response.data;
-      sessionRef.current = sessionId;
+    setSelectedRoom(room);
+  };
 
-      // OpenVidu Publisher 생성
-      const publisher = OV.initPublisher('publisher', {
-        audioSource: undefined, // default microphone
-        videoSource: undefined, // default webcam
-        publishAudio: true,
-        publishVideo: true,
-        resolution: '640x480',
-        frameRate: 30,
-        insertMode: 'APPEND',
-      });
-      publisherRef.current = publisher;
+  useEffect(() => {
+    const joinSession = async () => {
+      try {
+        if (!selectedRoom) return;
 
-      // OpenVidu에 연결 및 스트림 추가
-      const session = OV.initSession();
-      const tokenResponse = await axios.post(`http://localhost:3000/sessions/${sessionId}/connections`, {
-        data: 'user-data',
-      });
-      const token = tokenResponse.data;
-      session.connect(token, (error) => {
-        if (error) {
-          console.error('Error connecting to session:', error);
-        } else {
-          session.publish(publisher);
+        // 이미 생성된 세션이 있는지 확인
+        if (!sessionRef.current) {
+          // 세션 생성
+          const response = await axios.post('http://localhost:3000/sessions', {
+            sessionName: selectedRoom,
+          });
+          const sessionId = response.data;
+          sessionRef.current = sessionId;
         }
-      });
 
-      // 이벤트 리스너 등록
-      session.on('streamCreated', (event) => {
-        const subscriber = session.subscribe(event.stream, 'subscribers', {
+        // OpenVidu Publisher 생성
+        const publisher = OV.initPublisher('publisher', {
+          audioSource: undefined, // default microphone
+          videoSource: mediaStreamRef.current, // use the user's webcam stream
+          publishAudio: true,
+          publishVideo: true,
+          resolution: '640x480',
+          frameRate: 30,
           insertMode: 'APPEND',
         });
-        setParticipants((prevParticipants) => [...prevParticipants, subscriber]);
-      });
+        publisherRef.current = publisher;
 
-      session.on('streamDestroyed', (event) => {
-        setParticipants((prevParticipants) =>
-            prevParticipants.filter((p) => p.stream.streamId !== event.stream.streamId)
-        );
-      });
-    } catch (error) {
-      console.error('Error joining room:', error);
-    }
-  };
+        // OpenVidu에 연결 및 스트림 추가
+        const session = OV.initSession();
+        const tokenResponse = await axios.post(`http://localhost:3000/sessions/${sessionRef.current}/connections`, {
+          data: 'user-data',
+        });
+        const token = tokenResponse.data;
+        session.connect(token, (error) => {
+          if (error) {
+            console.error('Error connecting to session:', error);
+          } else {
+            session.publish(publisher);
+          }
+        });
+
+        // 이벤트 리스너 등록
+        session.on('streamCreated', (event) => {
+          const subscriber = session.subscribe(event.stream, 'subscribers', {
+            insertMode: 'APPEND',
+          });
+          setParticipants((prevParticipants) => [...prevParticipants, subscriber]);
+        });
+
+        session.on('streamDestroyed', (event) => {
+          setParticipants((prevParticipants) =>
+              prevParticipants.filter((p) => p.stream.streamId !== event.stream.streamId)
+          );
+        });
+      } catch (error) {
+        console.error('Error joining room:', error);
+      }
+    };
+
+    joinSession();
+  }, [selectedRoom]);
 
   return (
       <div>
         <h1>Video Chat App</h1>
-        <ul>
-          {rooms.map((room) => (
-              <li key={room} onClick={() => handleJoinRoom(room)}>
-                {room}
-              </li>
-          ))}
-        </ul>
+        <RoomList rooms={rooms} handleJoinRoom={handleJoinRoom} />
         <div id="publisher"></div>
         <div id="subscribers">
           {participants.map((stream, index) => (

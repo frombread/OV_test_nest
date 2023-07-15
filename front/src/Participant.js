@@ -4,13 +4,16 @@ const Participant = ({ stream }) => {
     const videoRef = useRef(null);
 
     useEffect(() => {
-        if (videoRef.current && stream) {
-            const videoElement = videoRef.current;
-            videoElement.srcObject = stream.stream;
+        if (videoRef.current) {
+            videoRef.current.srcObject = stream.stream;
         }
     }, [stream]);
 
-    return <video ref={videoRef} autoPlay playsInline />;
+    return (
+        <div>
+            <video ref={videoRef} autoPlay playsInline />
+        </div>
+    );
 };
 
 export default Participant;
